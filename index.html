@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAY247.COM - Săn Vé Máy Bay Giá Rẻ - 0328282828</title>
+    <title>REFUNDVEMAYBAY247.COM - Hoàn Vé & Săn Vé Giá Rẻ - 0328282828</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -17,15 +17,16 @@
 
         /* 2. MENU TABS */
         .nav-gradient { background: linear-gradient(to bottom, #000080, #000066); }
-        .nav-item { border-right: 1px solid rgba(255,255,255,0.1); padding: 0 15px; color: white; font-weight: bold; font-size: 13px; height: 100%; display: flex; align-items: center; white-space: nowrap; }
+        .nav-item { border-right: 1px solid rgba(255,255,255,0.1); padding: 0 15px; color: white; font-weight: bold; font-size: 13px; height: 100%; display: flex; align-items: center; white-space: nowrap; transition: 0.3s; }
+        .nav-item:hover { background: rgba(255,255,255,0.1); }
         .nav-home { background: linear-gradient(to bottom, #ffffff, #e6e6e6); color: #000080 !important; border-radius: 4px 0 0 4px; }
 
         /* 3. POPUP SÂN BAY RESPONSIVE */
         #airport-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 50000; align-items: center; justify-content: center; padding: 10px; }
-        .modal-box { background: #fff8bc; width: 100%; max-width: 1200px; border-radius: 8px; overflow: hidden; border: 1px solid #ffa726; display: flex; flex-direction: column; max-height: 95vh; }
+        .modal-box { background: #fff8bc; width: 100%; max-width: 1280px; border-radius: 8px; overflow: hidden; border: 1px solid #ffa726; display: flex; flex-direction: column; max-height: 95vh; }
         .modal-head { background: #ffa726; color: white; padding: 12px 15px; font-weight: bold; display: flex; justify-content: space-between; flex-shrink: 0; }
         .search-container { background: #ffcc66; padding: 10px; display: flex; gap: 8px; justify-content: center; flex-shrink: 0; }
-        .search-container input { flex-grow: 1; max-width: 500px; padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; outline: none; }
+        .search-container input { flex-grow: 1; max-width: 500px; padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; outline: none; color: #333; }
         
         .airport-grid-layout { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; padding: 20px; overflow-y: auto; background: #fff8bc; }
         @media (max-width: 1024px) { .airport-grid-layout { grid-template-columns: repeat(3, 1fr); } }
@@ -35,7 +36,7 @@
         .air-item { font-size: 13px; color: #333; cursor: pointer; line-height: 2; padding: 4px 8px; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .air-item:hover { background: #fffde7; color: #d35400; font-weight: bold; }
 
-        /* 4. FOOTER */
+        /* 4. FOOTER DARK */
         .footer-dark { background-color: #1a3a6d; background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/world-map.png'); background-blend-mode: multiply; }
     </style>
 </head>
@@ -48,7 +49,7 @@
             <div class="loading-window w-16 h-24 bg-blue-50 rounded-full border-4 border-gray-100 overflow-hidden flex items-end shadow-inner" style="animation-delay: 0.4s"><div class="w-full h-2/3 bg-blue-400 opacity-40"></div></div>
         </div>
         <div id="maint-icon" class="hidden mb-6 animate-bounce text-orange-500 text-7xl"><i class="fa fa-tools"></i></div>
-        <h2 id="status-title" class="text-blue-900 font-bold text-xl italic mb-4">Đang kiểm tra giá vé...</h2>
+        <h2 id="status-title" class="text-blue-900 font-bold text-xl italic mb-4">Đang truy xuất dữ liệu từ các hãng...</h2>
         <div id="search-info" class="mb-6 text-center px-4">
             <p id="display-route" class="text-blue-600 font-bold text-lg uppercase"></p>
             <p id="display-date" class="text-blue-400 font-medium text-sm"></p>
@@ -59,7 +60,7 @@
             </div>
         </div>
         <div id="maint-msg" class="hidden w-full max-w-sm space-y-4 px-6 text-center">
-            <p class="text-red-600 font-bold uppercase tracking-widest text-sm italic">Hệ thống đặt vé Online đang bảo trì định kỳ</p>
+            <p class="text-red-600 font-bold uppercase tracking-widest text-sm italic">Hệ thống đang bảo trì máy chủ định kỳ</p>
             <a href="tel:0328282828" class="w-full bg-red-600 text-white font-bold py-4 rounded-full text-xl shadow-xl flex items-center justify-center gap-3"><i class="fa fa-phone-alt"></i> 0328282828</a>
             <button onclick="goBack()" class="text-gray-400 underline text-xs block mx-auto uppercase font-black py-2">Quay lại trang chủ</button>
         </div>
@@ -67,18 +68,18 @@
 
     <div id="airport-modal">
         <div class="modal-box">
-            <div class="modal-head"><span id="modal-label">Chọn điểm đến</span><button onclick="closeModal()" class="text-2xl">✖</button></div>
+            <div class="modal-head"><span id="modal-label">Chọn sân bay</span><button onclick="closeModal()" class="text-2xl">✖</button></div>
             <div class="search-container">
                 <input type="text" placeholder="Tìm tên hoặc mã sân bay...">
-                <button class="bg-orange-500 text-white px-6 py-2 rounded text-sm font-bold shadow">Chọn</button>
+                <button class="bg-orange-500 text-white px-6 py-2 rounded text-sm font-bold shadow">Tìm kiếm</button>
             </div>
             <div id="airport-data-body" class="airport-grid-layout"></div>
         </div>
     </div>
 
     <header class="bg-white p-3 md:p-4 container mx-auto flex flex-col md:flex-row justify-between items-center gap-2 border-b-2 border-blue-900">
-        <a href="/" class="text-4xl font-black text-red-600 italic tracking-tighter uppercase select-none hover:opacity-80 transition">
-            BAY247<span class="text-orange-500">.COM</span>
+        <a href="/" class="text-3xl md:text-4xl font-black text-red-600 italic tracking-tighter uppercase select-none hover:opacity-80 transition">
+            REFUNDVEMAYBAY247<span class="text-orange-500">.COM</span>
         </a>
         <div class="text-red-600 font-bold text-xl md:text-2xl flex items-center gap-2">
             <i class="fa fa-phone-square text-orange-400"></i> 0328282828
@@ -87,11 +88,11 @@
 
     <nav class="container mx-auto px-2 md:px-4 mt-2">
         <div class="nav-gradient h-11 flex items-center rounded overflow-x-auto no-scrollbar shadow-lg">
-            <a href="/" class="nav-item nav-home">Home</a>
-            <a href="https://manh1998852.github.io/hoanve247pro/" target="_blank" class="nav-item">Hoàn tiền</a>
-            <a href="#" class="nav-item">Vé nội địa</a>
-            <a href="#" class="nav-item">Vé quốc tế</a>
-            <a href="#" class="nav-item border-none">Liên hệ</a>
+            <a href="/" class="nav-item nav-home">Trang chủ</a>
+            <a href="https://manh1998852.github.io/hoanve247pro/" target="_blank" class="nav-item">Yêu cầu hoàn vé</a>
+            <a href="#" class="nav-item">Săn vé giá rẻ</a>
+            <a href="#" class="nav-item">Quy định hãng</a>
+            <a href="#" class="nav-item border-none">Liên hệ 24/7</a>
         </div>
     </nav>
 
@@ -109,19 +110,13 @@
                 
                 <div class="md:col-span-2 grid grid-cols-3 gap-2">
                     <div><label class="text-[9px] font-bold text-gray-400 uppercase">Ng.Lớn</label>
-                        <select id="adult" class="w-full border p-2 rounded font-bold text-sm outline-none">
-                            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
-                        </select>
+                        <select id="adult" class="w-full border p-2 rounded font-bold text-sm outline-none"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
                     </div>
                     <div><label class="text-[9px] font-bold text-gray-400 uppercase">Trẻ em</label>
-                        <select id="child" class="w-full border p-2 rounded font-bold text-sm outline-none">
-                            <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
-                        </select>
+                        <select id="child" class="w-full border p-2 rounded font-bold text-sm outline-none"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
                     </div>
                     <div><label class="text-[9px] font-bold text-gray-400 uppercase">Em bé</label>
-                        <select id="infant" class="w-full border p-2 rounded font-bold text-sm outline-none">
-                            <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
-                        </select>
+                        <select id="infant" class="w-full border p-2 rounded font-bold text-sm outline-none"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
                     </div>
                 </div>
             </div>
@@ -130,46 +125,47 @@
     </section>
 
     <section class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded shadow border">
-            <h3 class="text-blue-900 font-bold border-b pb-2 mb-3 uppercase italic font-black">Chính sách Hoàn tiền</h3>
-            <p class="text-sm mb-4">Quý khách vui lòng thực hiện yêu cầu hoàn vé tại link bên dưới:</p>
-            <a href="https://manh1998852.github.io/hoanve247pro/" target="_blank" class="inline-block bg-blue-800 text-white px-6 py-2 rounded font-bold uppercase text-xs shadow-lg">Yêu cầu hoàn tiền ngay</a>
+        <div class="bg-white p-5 rounded shadow border border-blue-100">
+            <h3 class="text-blue-900 font-bold border-b pb-2 mb-3 uppercase italic font-black">Dịch vụ hoàn tiền</h3>
+            <p class="text-sm mb-4">Refundvemaybay247 hỗ trợ khách hàng xử lý các thủ tục hoàn, hủy và đổi vé của tất cả các hãng hàng không.</p>
+            <a href="https://manh1998852.github.io/hoanve247pro/" target="_blank" class="inline-block bg-blue-800 text-white px-6 py-2 rounded font-bold uppercase text-xs shadow-lg">Gửi yêu cầu hoàn vé</a>
         </div>
-        <div class="bg-white p-5 rounded shadow border">
-            <h3 class="text-blue-900 font-bold border-b pb-2 mb-3 uppercase italic font-black">Hình thức thanh toán</h3>
-            <p class="text-sm">Hỗ trợ chuyển khoản ngân hàng 24/7 và tiền mặt tại văn phòng Hà Nội - HCM.</p>
+        <div class="bg-white p-5 rounded shadow border border-blue-100">
+            <h3 class="text-blue-900 font-bold border-b pb-2 mb-3 uppercase italic font-black">Hỗ trợ nhanh 24/7</h3>
+            <p class="text-sm">Quý khách cần hỗ trợ gấp về hành trình hoặc sự cố tại sân bay, vui lòng gọi Hotline: <span class="text-red-600 font-bold italic">0328282828</span>.</p>
         </div>
     </section>
 
-    <footer class="footer-dark text-white py-10 px-4 mt-6">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="footer-dark text-white py-12 px-4 mt-6">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <div class="bg-white text-blue-900 rounded p-4 text-center shadow-xl max-w-xs mx-auto md:mx-0">
-                <p class="text-[10px] font-bold text-gray-400 uppercase">Hotline 24/7</p>
+                <p class="text-[10px] font-bold text-gray-400 uppercase">Hotline toàn quốc</p>
                 <p class="text-xl font-black text-red-600">0328282828</p>
             </div>
-            <div class="md:col-span-3 text-[11px] opacity-70 leading-relaxed uppercase text-center md:text-left">
-                <p class="font-bold">ĐỊA CHỈ HỆ THỐNG PHÒNG VÉ BAY247.COM</p>
-                <p>Hà Nội: 11 Bình Minh, Gia Lâm | HCM: 247 Trần Phú, Quận 5 | Hotline: 0328282828</p>
-                <p class="mt-4 text-[9px] tracking-widest italic opacity-40">© 2026 BAY247.COM - SĂN VÉ MÁY BAY GIÁ RẺ CHUYÊN NGHIỆP</p>
+            <div class="md:col-span-3 text-[11px] opacity-80 leading-relaxed uppercase">
+                <p class="font-bold">HỆ THỐNG PHÒNG VÉ REFUNDVEMAYBAY247.COM</p>
+                <p>Hà Nội: 11 Bình Minh, Gia Lâm | HCM: 247 Trần Phú, Q.5 | Hotline: 0328282828</p>
+                <p class="mt-4 text-[9px] tracking-widest italic opacity-40">© 2026 REFUNDVEMAYBAY247.COM - CHUYÊN NGHIỆP & TẬN TÂM</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // DATA SÂN BAY
+        // DỮ LIỆU SÂN BAY
         const airports = {
-            "Việt Nam": ["Hà Nội (HAN)", "Tp Hồ Chí Minh (SGN)", "Đà Nẵng (DAD)", "Nha Trang (CXR)", "Hải Phòng", "Phú Quốc", "Đà Lạt", "Cần Thơ", "Pleiku", "Cà Mau"],
-            "Đông Nam Á": ["Bangkok (BKK)", "Singapore (SIN)", "Kuala Lumpur", "Phuket", "Phnom Penh", "Vientiane", "Jakarta"],
-            "Đông Bắc Á": ["Taipei (TPE)", "Seoul (ICN)", "Tokyo (NRT)", "Hong Kong (HKG)", "Beijing (PEK)", "Shanghai"],
-            "Châu Âu": ["Frankfurt (FRA)", "Paris (CDG)", "London (LHR)", "Rome (ROM)", "Amsterdam", "Moscow"],
-            "Châu Mỹ": ["New York (JFK)", "Los Angeles (LAX)", "San Francisco", "Chicago", "Washington"],
-            "Châu Úc": ["Sydney (SYD)", "Melbourne (MEL)", "Auckland", "Perth", "Brisbane"],
-            "Châu Phi": ["Johannesburg (JNB)", "Cairo (CAI)"]
+            "Việt Nam": ["Hà Nội (HAN)", "Tp Hồ Chí Minh (SGN)", "Đà Nẵng (DAD)", "Nha Trang", "Phú Quốc", "Đà Lạt", "Cần Thơ", "Pleiku", "Buôn Mê Thuột", "Huế", "Vinh", "Cà Mau"],
+            "Đông Nam Á": ["Bangkok (BKK)", "Singapore (SIN)", "Kuala Lumpur", "Phuket", "Phnom Penh", "Vientiane", "Jakarta", "Manila"],
+            "Đông Bắc Á": ["Taipei (TPE)", "Seoul (ICN)", "Tokyo (NRT)", "Hong Kong", "Beijing", "Shanghai", "Osaka", "Busan"],
+            "Châu Âu": ["Frankfurt (FRA)", "Paris (CDG)", "London (LHR)", "Rome (ROM)", "Amsterdam", "Moscow", "Madrid", "Zurich"],
+            "Châu Mỹ": ["New York (JFK)", "Los Angeles", "San Francisco", "Chicago", "Washington", "Miami", "Dallas"],
+            "Châu Úc": ["Sydney (SYD)", "Melbourne", "Auckland", "Perth", "Brisbane"],
+            "Châu Phi": ["Johannesburg", "Cairo", "Cape Town"]
         };
 
         const gridBody = document.getElementById('airport-data-body');
         for (const [region, list] of Object.entries(airports)) {
             let col = document.createElement('div');
+            col.className = 'col-section';
             col.innerHTML = `<div class="reg-title">${region}</div>` + list.map(name => `<div class="air-item" onclick="pick('${name}')">${name}</div>`).join('');
             gridBody.appendChild(col);
         }
