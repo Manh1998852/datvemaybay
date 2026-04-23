@@ -12,64 +12,69 @@
         .nav-gradient { background: linear-gradient(to bottom, #000080, #000066); }
         .nav-item { border-right: 1px solid rgba(255,255,255,0.1); padding: 0 15px; color: white; font-weight: bold; font-size: 13px; height: 100%; display: flex; align-items: center; white-space: nowrap; cursor: pointer; transition: 0.3s; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.2); color: #ffcc66; }
-        .tab-content { display: none; min-height: 500px; }
+        .tab-content { display: none; min-height: 500px; padding-bottom: 50px; }
         .tab-content.active { display: block; }
-        
-        /* HIỆU ỨNG LOADING 3 CỬA SỔ */
-        #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 110000; flex-direction: column; align-items: center; justify-content: center; }
+        #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 110000; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; }
         .loading-window { animation: pulse 1.5s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
-
-        /* MODAL SÂN BAY */
-        #airport-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; align-items: center; justify-content: center; padding: 10px; }
+        #airport-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 120000; align-items: center; justify-content: center; padding: 10px; }
         .modal-box { background: white; width: 100%; max-width: 1200px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; }
-        .modal-head { background: #000080; color: white; padding: 15px 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .airport-grid-layout { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; padding: 20px; overflow-y: auto; background: #f8fafc; }
         @media (max-width: 1024px) { .airport-grid-layout { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 640px) { .airport-grid-layout { grid-template-columns: repeat(1, 1fr); } }
         .reg-section { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 10px; }
         .reg-title { color: #1e40af; font-weight: 900; border-bottom: 2px solid #3b82f6; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; }
-        .air-item { font-size: 14px; color: #475569; cursor: pointer; line-height: 2.5; border-bottom: 1px solid #f1f5f9; padding: 0 5px; }
-
-        /* FOOTER XANH ĐẬM CHỮ TRẮNG */
+        .air-item { font-size: 13px; color: #475569; cursor: pointer; line-height: 2.2; border-bottom: 1px solid #f1f5f9; }
         .footer-dark { background-color: #000033 !important; color: white !important; padding: 40px 20px; border-top: 4px solid #ffa500; }
     </style>
 </head>
 <body>
 
     <div id="loading-overlay">
-        <div id="searching-step" class="flex flex-col items-center">
+        <div id="searching-step" class="flex flex-col items-center px-4 w-full max-w-2xl text-center">
             <div class="flex gap-4 mb-8">
                 <div class="loading-window w-12 h-20 md:w-16 md:h-24 bg-blue-50 rounded-full border-4 border-gray-100 overflow-hidden flex items-end shadow-inner"><div class="w-full h-2/3 bg-blue-400 opacity-40"></div></div>
                 <div class="loading-window w-12 h-20 md:w-16 md:h-24 bg-blue-50 rounded-full border-4 border-gray-100 overflow-hidden flex items-end shadow-inner" style="animation-delay: 0.2s"><div class="w-full h-2/3 bg-blue-400 opacity-40"></div></div>
                 <div class="loading-window w-12 h-20 md:w-16 md:h-24 bg-blue-50 rounded-full border-4 border-gray-100 overflow-hidden flex items-end shadow-inner" style="animation-delay: 0.4s"><div class="w-full h-2/3 bg-blue-400 opacity-40"></div></div>
             </div>
-            <h2 class="text-blue-900 font-black text-xl italic animate-pulse uppercase">Đang tìm kiếm chuyến bay...</h2>
+            <h2 class="text-blue-900 font-black text-xl italic animate-pulse uppercase mb-4">Đang tìm kiếm chuyến bay...</h2>
+            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 w-full shadow-sm space-y-1">
+                <p id="load-route" class="text-blue-700 font-black text-lg"></p>
+                <p id="load-date" class="text-gray-500 font-bold text-sm"></p>
+                <p id="load-ppl" class="text-orange-600 font-black text-xs uppercase"></p>
+            </div>
         </div>
-
-        <div id="maint-content" class="hidden flex flex-col items-center text-center px-6">
-            <div class="mb-6 animate-bounce text-orange-500 text-6xl"><i class="fa fa-tools"></i></div>
-            <h2 class="text-blue-900 font-bold text-2xl uppercase mb-2">Thông báo bảo trì</h2>
-            <p class="text-red-600 font-bold text-lg mb-8 leading-relaxed">Chức năng đặt vé Online tạm thời bảo trì.<br>Vui lòng liên hệ nhân viên để đặt vé trực tiếp!</p>
-            <a href="tel:0328282828" class="bg-red-600 text-white font-bold py-4 px-10 rounded-full text-2xl shadow-2xl flex items-center gap-4 transition active:scale-95">
-                <i class="fa fa-phone-alt"></i> 0328.28.28.28
-            </a>
-            <button onclick="goBack()" class="mt-10 text-gray-400 underline uppercase font-bold text-[10px]">Trở lại trang chủ</button>
+        <div id="maint-content" class="hidden flex flex-col items-center text-center px-4 w-full max-w-2xl">
+            <div class="mb-4 animate-bounce text-orange-500 text-6xl"><i class="fa fa-tools"></i></div>
+            <h2 class="text-blue-900 font-bold text-2xl uppercase mb-1">Thông báo bảo trì</h2>
+            <p class="text-red-600 font-bold mb-6 uppercase text-sm italic">Hệ thống đặt vé Online đang bảo trì</p>
+            <div class="bg-blue-50 p-6 rounded-3xl border-2 border-blue-200 w-full shadow-lg mb-8">
+                <p class="text-[10px] text-gray-400 font-black uppercase mb-3 border-b pb-2">Lộ trình yêu cầu của bạn</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                    <div><p class="text-[9px] text-blue-400 font-bold uppercase">Hành trình</p><p id="final-route" class="text-blue-900 font-black text-lg"></p></div>
+                    <div><p class="text-[9px] text-blue-400 font-bold uppercase">Ngày tháng</p><p id="final-date" class="text-gray-700 font-bold text-sm"></p></div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-blue-100 flex justify-between items-center">
+                    <p id="final-ppl" class="text-orange-600 font-black text-xs uppercase"></p>
+                    <span class="bg-blue-600 text-white text-[9px] px-2 py-1 rounded-full font-bold">Ghi nhận thông tin</span>
+                </div>
+            </div>
+            <p class="text-gray-600 font-bold text-sm mb-6">Liên hệ trực tiếp nhân viên để hoàn tất đặt vé:</p>
+            <a href="tel:0328282828" class="bg-red-600 text-white font-bold py-4 px-10 rounded-full text-2xl shadow-2xl flex items-center gap-4 transition hover:bg-red-700"><i class="fa fa-phone-alt"></i> 0328.28.28.28</a>
+            <button onclick="goBack()" class="mt-10 text-gray-400 underline uppercase font-bold text-[10px]">Quay lại trang chủ</button>
         </div>
     </div>
 
     <div id="airport-modal">
         <div class="modal-box shadow-2xl">
-            <div class="modal-head"><span>CHỌN SÂN BAY HÀNH TRÌNH</span><button onclick="closeModal()" class="text-2xl">✖</button></div>
+            <div class="p-4 bg-[#000080] text-white font-bold flex justify-between"><span>CHỌN SÂN BAY</span><button onclick="closeModal()">✖</button></div>
             <div id="airport-data-body" class="airport-grid-layout no-scrollbar"></div>
         </div>
     </div>
 
     <header class="bg-white p-3 md:p-4 container mx-auto flex flex-col md:flex-row justify-between items-center border-b-2 border-blue-900 gap-2">
-        <a href="javascript:void(0)" onclick="showTab('home')" class="text-2xl md:text-4xl font-black text-red-600 italic uppercase tracking-tighter">
-            REFUNDVEMAYBAY247<span class="text-orange-500">.COM</span>
-        </a>
-        <div class="text-red-600 font-bold text-lg md:text-2xl"><i class="fa fa-phone-square"></i> 0328282828</div>
+        <a href="javascript:void(0)" onclick="showTab('home')" class="text-2xl md:text-4xl font-black text-red-600 italic uppercase">REFUNDVEMAYBAY247<span class="text-orange-500">.COM</span></a>
+        <div class="text-red-600 font-bold text-lg md:text-2xl flex items-center gap-2"><i class="fa fa-phone-square"></i> 0328282828</div>
     </header>
 
     <nav class="container mx-auto px-2 mt-2">
@@ -84,124 +89,92 @@
 
     <div id="home" class="tab-content active">
         <section class="container mx-auto px-4 mt-6 text-center md:text-left">
-            <h1 class="text-blue-900 font-black text-2xl md:text-3xl uppercase italic tracking-tight">Hệ Thống Săn Vé & Hoàn Tiền Vé Máy Bay 24/7</h1>
-            <p class="text-orange-500 font-bold text-sm md:text-base uppercase mt-1 italic">Uy tín - Chuyên nghiệp - Giá đại lý cấp 1</p>
+            <h1 class="text-blue-900 font-black text-2xl md:text-3xl uppercase italic">Hệ Thống Săn Vé & Hoàn Tiền Vé Máy Bay 24/7</h1>
+            <p class="text-orange-500 font-bold text-sm md:text-base uppercase mt-1 italic tracking-widest">Đại lý cấp 1 - Chuyên nghiệp - Minh bạch</p>
         </section>
-
         <section class="py-6 md:py-10 px-2 md:px-4">
             <div class="container mx-auto bg-white p-4 md:p-8 rounded-2xl shadow-2xl max-w-6xl border-t-8 border-orange-500">
                 <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
-                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400">ĐIỂM ĐI</label><input id="from" readonly onclick="openM('from')" value="Hà Nội (HAN)" class="w-full border p-3 rounded-lg font-bold bg-gray-50 cursor-pointer outline-none"></div>
-                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400">ĐIỂM ĐẾN</label><input id="to" readonly onclick="openM('to')" value="Hồ Chí Minh (SGN)" class="w-full border p-3 rounded-lg font-bold bg-gray-50 cursor-pointer outline-none"></div>
-                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400">NGÀY ĐI</label><input type="date" id="dDate" class="w-full border p-3 rounded-lg font-bold outline-none"></div>
-                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400">NGÀY VỀ</label><input type="date" class="w-full border p-3 rounded-lg font-bold outline-none"></div>
+                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400 uppercase">Điểm đi</label><input id="from" readonly onclick="openM('from')" value="Hà Nội (HAN)" class="w-full border p-3 rounded-lg font-bold bg-gray-50 cursor-pointer outline-none text-sm"></div>
+                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400 uppercase">Điểm đến</label><input id="to" readonly onclick="openM('to')" value="Hồ Chí Minh (SGN)" class="w-full border p-3 rounded-lg font-bold bg-gray-50 cursor-pointer outline-none text-sm"></div>
+                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400 uppercase">Ngày đi</label><input type="date" id="dDate" class="w-full border p-3 rounded-lg font-bold outline-none text-sm"></div>
+                    <div class="md:col-span-1"><label class="text-[10px] font-bold text-gray-400 uppercase">Ngày về</label><input type="date" id="rDate" class="w-full border p-3 rounded-lg font-bold outline-none text-sm"></div>
                     <div class="md:col-span-2 grid grid-cols-3 gap-2">
-                        <div><label class="text-[9px] font-bold text-gray-400">NG.LỚN</label><select class="w-full border p-3 rounded-lg font-bold outline-none"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
-                        <div><label class="text-[9px] font-bold text-gray-400">TRẺ EM</label><select class="w-full border p-3 rounded-lg font-bold outline-none"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
-                        <div><label class="text-[9px] font-bold text-gray-400">EM BÉ</label><select class="w-full border p-3 rounded-lg font-bold outline-none"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+                        <div><label class="text-[9px] font-bold text-gray-400 uppercase">Ng.Lớn</label><select id="adult" class="w-full border p-3 rounded-lg font-bold outline-none text-sm"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+                        <div><label class="text-[9px] font-bold text-gray-400 uppercase">Trẻ em</label><select id="child" class="w-full border p-3 rounded-lg font-bold outline-none text-sm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+                        <div><label class="text-[9px] font-bold text-gray-400 uppercase">Em bé</label><select id="infant" class="w-full border p-3 rounded-lg font-bold outline-none text-sm"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
                     </div>
                 </div>
                 <button onclick="handleSearch()" class="w-full mt-6 bg-orange-500 text-white font-black py-5 rounded-2xl shadow-xl uppercase text-xl transition active:scale-95">Tìm chuyến bay ngay</button>
             </div>
         </section>
-
         <div class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-            <div class="bg-white p-6 rounded-2xl shadow border-l-8 border-blue-900 text-base">
-                <h3 class="text-blue-900 font-black uppercase mb-3 border-b pb-2 italic">Dịch vụ hoàn tiền vé 24/7</h3>
-                <p class="text-gray-600 leading-relaxed mb-4">Chúng tôi chuyên xử lý thủ tục hoàn, đổi vé nhanh chóng cho tất cả các hãng hàng không nội địa và quốc tế.</p>
-                <a href="https://manh1998852.github.io/hoanve247pro/" target="_blank" class="inline-block bg-blue-800 text-white px-6 py-2 rounded-lg font-bold uppercase text-xs">Gửi yêu cầu</a>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow border-l-8 border-orange-500 text-base">
-                <h3 class="text-blue-900 font-black uppercase mb-3 border-b pb-2 italic">Cam kết giá rẻ nhất</h3>
-                <p class="text-gray-600 leading-relaxed">Hệ thống quét giá vé tự động 24/7 giúp bạn luôn tìm được mức giá thấp nhất thị trường.</p>
-            </div>
+            <div class="bg-white p-6 rounded-2xl shadow border-l-8 border-blue-900 text-base"><h3 class="text-blue-900 font-black uppercase mb-3 border-b pb-2 italic">Hoàn tiền vé 24/7</h3><p class="text-gray-600">Xử lý nhanh mọi thủ tục hoàn đổi nhanh nhất.</p></div>
+            <div class="bg-white p-6 rounded-2xl shadow border-l-8 border-orange-500 text-base"><h3 class="text-blue-900 font-black uppercase mb-3 border-b pb-2 italic">Giá vé đại lý</h3><p class="text-gray-600">Hệ thống quét giá trực tiếp từ tất cả các hãng bay.</p></div>
         </div>
     </div>
 
     <div id="promo" class="tab-content container mx-auto p-4 md:p-10">
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto border border-slate-100">
-            <div class="bg-blue-900 p-8 text-center text-white">
-                <h2 class="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-2">Cẩm nang săn vé máy bay giá rẻ</h2>
-                <p class="text-yellow-400 font-bold uppercase tracking-widest text-xs">Tiết kiệm 35% chi phí hoàn toàn nằm trong tầm tay</p>
-            </div>
-            <div class="p-6 md:p-12 space-y-12 text-gray-700 leading-relaxed">
-                <div><h3 class="text-2xl font-black text-blue-900 mb-4 border-b-2 border-orange-500 inline-block">1. Thời điểm "Vàng" để xuống tiền</h3>
-                    <p>Quy luật 6-8 tuần; Tránh cuối tuần (Thứ 6-Chủ nhật); Bay giờ "oái oăm" (3h sáng/11h đêm) có giá mềm nhất.</p></div>
-                <div><h3 class="text-2xl font-black text-blue-900 mb-4 border-b-2 border-orange-500 inline-block">2. Tận dụng sức mạnh công nghệ</h3>
-                    <p>Sử dụng Google Flights/Skyscanner. Luôn bật <strong>Chế độ ẩn danh (Incognito)</strong> khi tìm vé để tránh bị đội giá.</p></div>
-                <div><h3 class="text-2xl font-black text-blue-900 mb-4 border-b-2 border-orange-500 inline-block">3. Chiến thuật Khuyến mãi 35%++</h3>
-                    <p>Đăng ký App Notification của hãng; Tận dụng voucher từ Ví điện tử MoMo, VNPay để giảm thêm 200k-500k.</p></div>
-                <div><h3 class="text-2xl font-black text-blue-900 mb-4 border-b-2 border-orange-500 inline-block">4. Mẹo "nhỏ mà có võ"</h3>
-                    <p>Đặt vé từng người một; Đổi đơn vị tiền tệ; Bỏ qua các dịch vụ tích sẵn (bảo hiểm, suất ăn) để tiết kiệm.</p></div>
-                <div><h3 class="text-2xl font-black text-blue-900 mb-4 border-b-2 border-orange-500 inline-block">5. Sự linh hoạt là chìa khóa</h3>
-                    <p>Thay vì tìm ngày cụ thể, hãy tìm "vé đi đâu rẻ nhất trong tháng" để săn được deal hời.</p></div>
-                <div class="bg-orange-600 text-white p-8 rounded-3xl text-center shadow-2xl">
-                    <p class="text-xs uppercase font-black mb-2 opacity-80">Hotline săn vé 24/7</p>
-                    <a href="tel:0328282828" class="text-5xl font-black tracking-tighter">0328.28.28.28</a>
-                </div>
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto border border-slate-100 text-gray-700 leading-relaxed">
+            <div class="bg-blue-900 p-8 text-center text-white"><h2 class="text-2xl md:text-4xl font-black uppercase italic">Cẩm nang săn vé máy bay giá rẻ</h2></div>
+            <div class="p-8 space-y-8">
+                <div><h3 class="text-xl font-black text-blue-900 border-b-2 border-orange-500 inline-block">1. Thời điểm "Vàng" để xuống tiền</h3><p class="mt-2">- Quy luật 6-8 tuần cho chặng nội địa. Tránh đi cuối tuần (Thứ 6-CN). Ưu tiên bay chuyến sáng sớm hoặc đêm muộn (3h sáng/11h đêm).</p></div>
+                <div><h3 class="text-xl font-black text-blue-900 border-b-2 border-orange-500 inline-block">2. Tận dụng sức mạnh công nghệ</h3><p class="mt-2">- Sử dụng Google Flights để xem biểu đồ giá. Luôn bật <strong>Chế độ ẩn danh</strong> để tránh bị đội giá do hệ thống theo dõi cookie.</p></div>
+                <div><h3 class="text-xl font-black text-blue-900 border-b-2 border-orange-500 inline-block">3. Chiến thuật Khuyến mãi 35%++</h3><p class="mt-2">- Đăng ký Newsletter/App để săn Vietjet 12h, Vietnam Airlines Thứ 5 rực rỡ. Tận dụng Voucher giảm giá từ MoMo, ZaloPay, VNPay.</p></div>
+                <div><h3 class="text-xl font-black text-blue-900 border-b-2 border-orange-500 inline-block">4. Mẹo "nhỏ mà có võ"</h3><p class="mt-2">- Đặt từng người một nếu đi nhóm để lấy được hạng ghế rẻ cuối cùng. Đổi đơn vị tiền tệ sang tiền bản địa nếu bay quốc tế.</p></div>
+                <div><h3 class="text-xl font-black text-blue-900 border-b-2 border-orange-500 inline-block">5. Sự linh hoạt là chìa khóa</h3><p class="mt-2">- Linh hoạt ngày bay lệch 1-2 ngày có thể giúp bạn tiết kiệm được 1/2 chi phí.</p></div>
             </div>
         </div>
     </div>
 
     <div id="rules" class="tab-content container mx-auto p-4 md:p-10">
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto border border-slate-100">
-            <div class="bg-red-700 p-8 text-center text-white">
-                <h2 class="text-3xl md:text-5xl font-black uppercase italic tracking-tighter mb-2">⚡ "Luật Chơi" Từ Các Hãng</h2>
-                <p class="text-yellow-300 font-bold uppercase text-sm">Đừng để vé rẻ thành vé đắt</p>
-            </div>
-            <div class="p-6 md:p-12 space-y-10 text-gray-700 leading-relaxed">
-                <div><h3 class="text-xl font-black text-red-700 mb-2">1. Vé Giá Rẻ = "Bút Sa Gà Chết"</h3><p>Vé Promo thường KHÔNG HOÀN, KHÔNG HỦY. Hãy chắc chắn lịch trình trước khi mua.</p></div>
-                <div><h3 class="text-xl font-black text-red-700 mb-2">2. Cuộc Chiến Hành Lý</h3><p>Cân điện tử rất nhạy, phạt tại chỗ rất đắt. Hãy check kỹ 7kg xách tay và kích thước vali.</p></div>
-                <div><h3 class="text-xl font-black text-red-700 mb-2">3. Đổi Tên, Đổi Ngày: Phí Chồng Phí</h3><p>Tổng tiền đổi đôi khi đắt hơn mua vé mới. Check kỹ họ tên trên CCCD nhé!</p></div>
-                <div><h3 class="text-xl font-black text-red-700 mb-2">4. Quy Định Delay</h3><p>Chậm từ 4h trở lên mới được bồi thường. Nếu dời chuyến quá nhiều bạn có quyền hoàn tiền miễn phí.</p></div>
-                <div><h3 class="text-xl font-black text-red-700 mb-2">5. Check-in Online</h3><p>Tự làm thủ tục trước 24h để tránh mất phí tại quầy và lướt qua đám đông như một vị thần.</p></div>
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto border border-slate-100 text-gray-700 leading-relaxed">
+            <div class="bg-red-700 p-8 text-center text-white"><h2 class="text-2xl md:text-4xl font-black uppercase italic tracking-tighter">⚡ "Luật Chơi" Từ Các Hãng</h2></div>
+            <div class="p-8 space-y-8">
+                <div><h3 class="text-lg font-black text-red-700 uppercase">1. Vé Giá Rẻ = "Bút sa gà chết"</h3><p>Vé khuyến mãi Promo thường không hoàn, không hủy. Bận đột xuất coi như mất trắng tiền.</p></div>
+                <div><h3 class="text-lg font-black text-red-700 uppercase">2. Cuộc chiến hành lý</h3><p>Hành lý 7kg: Đừng ăn gian vì cân tại sân bay rất nhạy. Phí phạt quá cước tại quầy đắt gấp 3 lần mua trước.</p></div>
+                <div><h3 class="text-lg font-black text-red-700 uppercase">3. Đổi Tên, Đổi Ngày</h3><p>Phí đổi = Phí cố định (350k-600k) + Chênh lệch giá vé. Có khi đắt hơn mua vé mới tinh.</p></div>
+                <div><h3 class="text-lg font-black text-red-700 uppercase">4. Quy định Delay</h3><p>Chậm trên 4 tiếng mới được bồi thường. Nếu hãng dời chuyến quá nhiều bạn mới có quyền hoàn tiền miễn phí.</p></div>
+                <div><h3 class="text-lg font-black text-red-700 uppercase">5. Check-in Online</h3><p>Nên làm trước 24h để chủ động và tránh mất phí làm tại quầy (tùy hãng).</p></div>
             </div>
         </div>
     </div>
 
-    <div id="contact" class="tab-content container mx-auto p-4 md:p-10 text-center">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl mx-auto border border-slate-100 text-left">
-            <div class="bg-blue-900 p-8 text-center text-white">
-                <h2 class="text-2xl md:text-4xl font-black uppercase mb-2 italic tracking-tighter">💎 Đừng Để Hành Trình Mơ Ước Chỉ Là Dự Định</h2>
-            </div>
-            <div class="p-6 md:p-12 space-y-6 text-gray-700">
-                <p>Săn vé giá rẻ không phải là một cuộc chiến đơn độc, đó là lúc bạn cần một "người đồng hành" am hiểu tường tận bầu trời. Chúng tôi ở đây để đơn giản hóa mọi thứ cho bạn.</p>
-                <div class="bg-slate-50 p-8 rounded-3xl border-2 border-blue-900 text-center">
-                    <h3 class="text-2xl font-black text-blue-900 mb-6 uppercase tracking-tighter">Hotline: 0328.28.28.28</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-bold text-blue-900 text-sm">
-                        <p>✅ Tư vấn hành trình tối ưu</p>
-                        <p>✅ Hỗ trợ 24/7 siêu tốc</p>
-                        <p>✅ Deal độc quyền 35-50%</p>
+    <div id="contact" class="tab-content container mx-auto p-4 md:p-10">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-5xl mx-auto border border-slate-100 text-gray-700">
+            <div class="bg-blue-900 p-8 text-white text-center font-black uppercase italic tracking-tighter"><h2 class="text-2xl md:text-4xl">💎 Đừng Để Hành Trình Chỉ Là Dự Định</h2></div>
+            <div class="p-8 space-y-8 leading-relaxed">
+                <p>Săn vé rẻ không phải cuộc chiến đơn độc, hãy để chúng tôi đồng hành giúp bạn đơn giản hóa mọi thứ, tránh rủi ro sai sót tên tuổi hay lịch trình.</p>
+                <div class="bg-slate-50 p-8 rounded-3xl border-2 border-blue-900 text-center shadow-inner">
+                    <h3 class="text-2xl font-black text-blue-900 mb-4 uppercase">Hotline hỗ trợ: 0328.28.28.28</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-bold text-blue-800 text-sm">
+                        <p>✅ Hành trình tối ưu nhất</p><p>✅ Hỗ trợ 24/7 siêu tốc</p><p>✅ Deal độc quyền 35-50%</p>
                     </div>
                 </div>
-                <p class="text-center font-bold text-orange-600 uppercase italic">Hệ Thống Hoàn Tiền Vé Máy Bay 247 – Nơi niềm tin được bảo chứng.</p>
+                <p class="text-center font-bold text-orange-600 uppercase italic">Hệ Thống Hoàn Tiền Vé Máy Bay 247 – Niềm tin được bảo chứng</p>
             </div>
         </div>
     </div>
 
     <footer class="footer-dark mt-20">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-            <div class="bg-white text-blue-900 rounded-2xl p-6 text-center shadow-2xl max-w-xs">
-                <p class="text-gray-400 font-bold text-[10px] uppercase mb-1">Hotline 24/7</p>
-                <p class="text-3xl font-black text-red-600 tracking-tighter">0328282828</p>
-            </div>
-            <div class="text-center md:text-right">
-                <p class="text-lg font-black uppercase text-orange-400 mb-2 tracking-widest">REFUNDVEMAYBAY247.COM</p>
-                <p class="text-[11px] opacity-70 uppercase leading-loose tracking-widest">
-                    HN: 11 Bình Minh, Gia Lâm | GL: 247 Trần Phú | HCM: 153 Lê Hồng Phong<br>
-                    © 2026 Bản quyền thuộc về đại lý vé máy bay cấp 1 chính thức.
-                </p>
+            <div class="bg-white text-blue-900 rounded-2xl p-6 text-center shadow-2xl max-w-xs"><p class="text-gray-400 font-bold text-[10px] uppercase mb-1">Hotline toàn quốc 24/7</p><p class="text-3xl font-black text-red-600 tracking-tighter">0328282828</p></div>
+            <div class="text-center md:text-right uppercase text-[11px] opacity-70 tracking-widest leading-loose font-bold">
+                <p class="text-lg font-black text-orange-400 mb-2">REFUNDVEMAYBAY247.COM</p>
+                <p>Hệ thống đại lý vé máy bay cấp 1 toàn quốc<br>HN: 11 Bình Minh | GL: 247 Trần Phú | HCM: 153 Lê Hồng Phong<br>© 2026 Bản quyền thuộc về refundvemaybay247.com</p>
             </div>
         </div>
     </footer>
 
     <script>
         const airports = {
-            "Miền Bắc": ["Hà Nội (HAN)", "Hải Phòng (HPH)", "Vân Đồn (VDO)", "Vinh (VII)", "Điện Biên (DIN)"],
+            "Miền Bắc": ["Hà Nội (HAN)", "Hải Phòng (HPH)", "Vân Đồn (VDO)", "Vinh (VII)", "Thanh Hóa (THD)", "Điện Biên (DIN)"],
             "Miền Trung": ["Đà Nẵng (DAD)", "Huế (HUI)", "Cam Ranh (CXR)", "Quy Nhơn (UIH)", "Chu Lai (VCL)", "Tuy Hòa (TBB)", "Đồng Hới (VDH)"],
             "Tây Nguyên": ["Pleiku (PXU)", "Buôn Mê Thuột (BMV)", "Đà Lạt (DLI)"],
             "Miền Nam": ["Tp.HCM (SGN)", "Cần Thơ (VCA)", "Phú Quốc (PQC)", "Côn Đảo (VCS)", "Rạch Giá (VKG)", "Cà Mau (CAH)"],
-            "Quốc tế": ["Bangkok", "Singapore", "Seoul", "Tokyo", "Taipei", "Hong Kong", "Paris", "London", "Sydney", "New York"]
+            "Đông Nam Á": ["Bangkok (BKK)", "Singapore (SIN)", "Kuala Lumpur (KUL)", "Phuket (HKT)", "Phnom Penh (PNH)", "Vientiane (VTE)", "Manila (MNL)", "Jakarta (CGK)"],
+            "Đông Bắc Á": ["Seoul (ICN)", "Tokyo (NRT)", "Taipei (TPE)", "Hong Kong (HKG)", "Shanghai (PVG)", "Osaka (KIX)", "Beijing (PEK)", "Busan (PUS)"],
+            "Âu - Mỹ - Úc": ["Paris (CDG)", "London (LHR)", "Frankfurt (FRA)", "New York (JFK)", "Sydney (SYD)", "Melbourne (MEL)", "San Francisco", "Los Angeles"]
         };
         const gridBody = document.getElementById('airport-data-body');
         for (const [region, list] of Object.entries(airports)) {
@@ -221,15 +194,16 @@
             window.scrollTo(0,0);
         }
         function handleSearch() {
+            const f = document.getElementById('from').value; const t = document.getElementById('to').value;
+            const dd = document.getElementById('dDate').value; const rd = document.getElementById('rDate').value;
+            const p = `${document.getElementById('adult').value} Lớn, ${document.getElementById('child').value} Trẻ em, ${document.getElementById('infant').value} Em bé`;
+            const rt = `${f} ↔ ${t}`; const dt = `Đi: ${dd} ${rd ? '| Về: '+rd : ''}`;
+            document.getElementById('load-route').innerText = rt; document.getElementById('load-date').innerText = dt; document.getElementById('load-ppl').innerText = p;
+            document.getElementById('final-route').innerText = rt; document.getElementById('final-date').innerText = dt; document.getElementById('final-ppl').innerText = p;
             document.getElementById('loading-overlay').style.display = 'flex';
-            document.getElementById('searching-step').style.display = 'flex';
-            document.getElementById('maint-content').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('searching-step').style.display = 'none';
-                document.getElementById('maint-content').classList.remove('hidden');
-            }, 3000);
+            setTimeout(() => { document.getElementById('searching-step').style.display='none'; document.getElementById('maint-content').classList.remove('hidden'); }, 3500);
         }
-        function goBack() { document.getElementById('loading-overlay').style.display = 'none'; }
+        function goBack() { document.getElementById('loading-overlay').style.display = 'none'; document.getElementById('searching-step').style.display='flex'; document.getElementById('maint-content').classList.add('hidden'); }
         document.getElementById('dDate').valueAsDate = new Date();
     </script>
 </body>
